@@ -31,12 +31,8 @@ body {
   }
 }
 
-/* .line-bg {
-  background-color: ;
-} */
-
 .MathJax {
-  font-size: 24px !important;
+  font-size: 100% !important;
 }
 
 .blog pre code {
@@ -64,6 +60,9 @@ body {
 }
 .blog h6 {
   @apply text-base font-bold
+}
+.blog ol {
+  @apply list-decimal mx-4
 }
 
 p:has(.MathJax) {

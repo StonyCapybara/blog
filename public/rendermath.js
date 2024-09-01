@@ -1,1 +1,4 @@
-setInterval(()=>{MathJax.typeset();console.log("tried")}, 2000);
+setInterval(()=>{
+  MathJax.typeset();
+  console.log("tried");
+}, 2000);
