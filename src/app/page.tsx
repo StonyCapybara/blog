@@ -1,7 +1,10 @@
 import LatestPosts from "@/components/LatestPosts";
-// import Image from "next/image";
-// import pic from "@/images/ai_pic.png"
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Divjot's Blog",
+  description: "I made a blog because I can"
+}
 
 export default function Home() {
   return (

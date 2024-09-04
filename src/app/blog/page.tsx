@@ -1,11 +1,17 @@
 import { getAllIDs, getPostDetails } from "../posts";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "All my blogs",
+  description: "I made a blog because I can"
+}
 
 export default function Blog() {
   return <div className="px-4">
     <h1 className="text-3xl">All Posts</h1>
     <hr className="mb-6" />
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 my-4">
       {getAllIDs().reverse().map(id => {
         const data = getPostDetails(id);
         return <Link href={`/blog/${id}`} key={id}>

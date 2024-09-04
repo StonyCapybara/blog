@@ -44,22 +44,22 @@ body {
 }
 
 .blog h1 {
-  @apply text-4xl font-bold
+  @apply text-4xl font-bold my-4
 }
 .blog h2 {
-  @apply text-3xl font-bold
+  @apply text-3xl font-bold my-4
 }
 .blog h3 {
-  @apply text-2xl font-bold
+  @apply text-2xl font-bold my-4
 }
 .blog h4 {
-  @apply text-xl font-bold
+  @apply text-xl font-bold my-4
 }
 .blog h5 {
-  @apply text-lg font-bold
+  @apply text-lg font-bold my-4
 }
 .blog h6 {
-  @apply text-base font-bold
+  @apply text-base font-bold my-4
 }
 .blog ol {
   @apply list-decimal mx-4
@@ -71,4 +71,22 @@ body {
 
 .blog a {
   @apply underline underline-offset-4 hover:underline-offset-2 hover:text-cyan-200 transition-all
+}
+
+*:has(> mjx-container) {
+  max-width: calc(100vw - 9px);
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+::-webkit-scrollbar {
+  @apply w-1 h-1 transition-all;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-neutral-700 rounded-full hover:bg-neutral-600;
 }
