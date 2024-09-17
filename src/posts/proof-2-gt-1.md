@@ -5,6 +5,8 @@ date: 1725381431727
 
 # Proof that \\(2 \gt 1\\)
 
+(Incase you see the source code in the formulae, refresh your page)
+
 ### This is a geometrical proof that uses the [triangle inequality](https://en.wikipedia.org/wiki/Triangle_inequality)
 
 We start by considering an arbitrary triangle ABC with lengths \\(AB = c,\text{ } BC = a,\text{ } CA = b\\)

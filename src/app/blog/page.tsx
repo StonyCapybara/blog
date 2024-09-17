@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description: "I made a blog because I can"
 }
 
-export default function Blog() {
+export default async function Blog() {
   return <div className="px-4">
     <h1 className="text-3xl">All Posts</h1>
     <hr className="mb-6" />
     <div className="flex flex-col gap-4 my-4">
-      {getAllIDs().reverse().map(id => {
-        const data = getPostDetails(id);
+      {(await getAllIDs()).reverse().map(async (id) => {
+        const data = await getPostDetails(id, false);
         return <Link href={`/blog/${id}`} key={id}>
           <div className="flex flex-col bg-neutral-800 p-3 rounded-md hover:cursor-pointer group">
             <p className="text-lg font-bold group-hover:text-cyan-200 transition-all">{data.title}</p>

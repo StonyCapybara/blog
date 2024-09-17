@@ -2,11 +2,11 @@
 import { getLatestPostsData } from "@/app/posts";
 import Link from "next/link";
 
-export default function LatestPosts() {
+export default async function LatestPosts() {
     const latestPostsData = getLatestPostsData();
     return (
         <div className="flex flex-col gap-4">
-            {latestPostsData.map((obj) => (
+            {(await latestPostsData).map((obj) => (
                 <Link key={obj.id} href={`/blog/${obj.id}`}>
                     <div className="flex flex-col bg-neutral-800 p-3 rounded-md hover:cursor-pointer group">
                         <p className="text-lg font-bold group-hover:text-cyan-200 transition-all">{obj.title}</p>
