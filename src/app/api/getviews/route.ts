@@ -1,18 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { configDotenv } from "dotenv";
-import { MongoClient, ServerApiVersion } from "mongodb";
-
-configDotenv();
-
-const uri = !!process.env.MONGODB_URI?process.env.MONGODB_URI:"mongodb+srv://";
-
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
+import { connectToDatabase } from '@/app/mongodb';
 
 export async function GET(request: NextRequest) {
   const query = request.nextUrl.searchParams;
@@ -21,8 +8,7 @@ export async function GET(request: NextRequest) {
   }
   const id = query.get("id")
   try{
-    await client.connect();
-    const vc = client.db("views").collection("views");
+    const {vc} = await connectToDatabase();
     const viewDoc = await vc.findOne({id});
     if (viewDoc === null){
       return NextResponse.json({error: "post with id does not exist"}, {status: 400});
@@ -31,7 +17,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({views: viewDoc.views + 1}, {status: 200});
   }
   finally {
-    await client.close();
   }
   
 }

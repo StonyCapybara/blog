@@ -1,44 +1,44 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { configDotenv } from "dotenv";
-import { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
+// import { configDotenv } from "dotenv";
+// import { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
 
-configDotenv();
+// configDotenv();
 
-const uri = !!process.env.MONGODB_URI?process.env.MONGODB_URI:"mongodb+srv://";
+// const uri = !!process.env.MONGODB_URI?process.env.MONGODB_URI:"mongodb+srv://";
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
+// // Create a MongoClient with a MongoClientOptions object to set the Stable API version
+// const client = new MongoClient(uri, {
+//   serverApi: {
+//     version: ServerApiVersion.v1,
+//     strict: true,
+//     deprecationErrors: true,
+//   }
+// });
 
-async function updateViewCollection(){
-  const allIds = await getAllIDs();
-  try {
-    await client.connect();
-    const vc = client.db("views").collection("views");
-    let data = await vc.find().toArray();
-    let dataIds = data.map(doc => doc.id);
-    for(let id of allIds){
-      if(!dataIds.includes(id)){
-        console.log(`Adding ${id} to collection`)
-        await vc.insertOne({
-          _id: new ObjectId(),
-          id,
-          views: 0
-        });
-        console.log(`Added ${id} to collection`)
-      }
-    }
-  }
-  finally {
-  }
-}
+// async function updateViewCollection(){
+//   const allIds = await getAllIDs();
+//   try {
+//     await client.connect();
+//     const vc = client.db("views").collection("views");
+//     let data = await vc.find().toArray();
+//     let dataIds = data.map(doc => doc.id);
+//     for(let id of allIds){
+//       if(!dataIds.includes(id)){
+//         console.log(`Adding ${id} to collection`)
+//         await vc.insertOne({
+//           _id: new ObjectId(),
+//           id,
+//           views: 0
+//         });
+//         console.log(`Added ${id} to collection`)
+//       }
+//     }
+//   }
+//   finally {
+//   }
+// }
 
 const postsDir = path.join(process.cwd(), "src/posts");
 const fileNames = fs.readdirSync(postsDir);
@@ -71,24 +71,15 @@ export async function getPostDetails(id: string) {
   const fileContents = fs.readFileSync(fullPath, "utf-8");
 
   const matterResult = matter(fileContents);
-
-  try{
-      return {
-      id,
-      date: 0,
-      title: "",
-      content: matterResult.content,
-      ...matterResult.data,
-    };
-  }
-  finally {
-    client.close();
-  }
+  
+  return {
+    id,
+    date: 0,
+    title: "",
+    content: matterResult.content,
+    ...matterResult.data,
+  };
+  
 }
 
-updateViewCollection();
-// Example: Close the connection when the application exits
-process.on('SIGINT', async () => {
-  await client.close();
-  process.exit(0);
-});
+// updateViewCollection();
