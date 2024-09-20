@@ -4,7 +4,7 @@ import { MongoClient, ServerApiVersion } from "mongodb";
 
 configDotenv();
 
-const uri = "mongodb+srv://"+process.env.DB_URI;
+const uri = !!process.env.MONGODB_URI?process.env.MONGODB_URI:"mongodb+srv://";
 
 const client = new MongoClient(uri, {
   serverApi: {
