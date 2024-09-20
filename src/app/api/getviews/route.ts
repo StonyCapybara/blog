@@ -4,7 +4,7 @@ import { MongoClient, ServerApiVersion } from "mongodb";
 
 configDotenv();
 
-const uri = !!process.env.DB_URI?process.env.DB_URI:"";
+const uri = "mongodb+srv://"+process.env.DB_URI;
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -15,15 +15,23 @@ const client = new MongoClient(uri, {
 });
 
 export async function GET(request: NextRequest) {
+  const query = request.nextUrl.searchParams;
+  if (query.get("id")===null) {
+    return NextResponse.json({error: "id not provided"}, {status: 400})
+  }
+  const id = query.get("id")
   try{
     await client.connect();
-    return NextResponse.json((await client.db("views").collection("views").findOne({id: request.nextUrl.searchParams.get("id")}))?.views);
-  }
-  catch {
-    return NextResponse.json("err")
+    const vc = client.db("views").collection("views");
+    const viewDoc = await vc.findOne({id});
+    if (viewDoc === null){
+      return NextResponse.json({error: "post with id does not exist"}, {status: 400});
+    }
+    await vc.updateOne({id}, {"$set": {views: viewDoc.views+1}});
+    return NextResponse.json({views: viewDoc.views + 1}, {status: 200});
   }
   finally {
-    client.close();
+    await client.close();
   }
   
 }

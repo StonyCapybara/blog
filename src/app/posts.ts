@@ -6,7 +6,7 @@ import { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
 
 configDotenv();
 
-const uri = !!process.env.DB_URI?process.env.DB_URI:"";
+const uri = "mongodb+srv://"+process.env.DB_URI;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -16,26 +16,6 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   }
 });
-
-export async function addView(id: string) {
-  try {
-    await client.connect();
-    let viewDoc = await client.db("views").collection("views").findOne({id});
-    if(!!viewDoc){
-      await client.db("views").collection("views").updateOne({id}, {"$set": {views: ++viewDoc.views}});
-      console.log(viewDoc.views)
-    } else {
-      console.log("Invalid ID: "+id)
-    }
-  } catch(e) {
-    console.log(e)
-  }
-  finally {
-    await client.close();
-  }
-}
-
-
 
 async function updateViewCollection(){
   const allIds = await getAllIDs();
@@ -63,11 +43,11 @@ async function updateViewCollection(){
 const postsDir = path.join(process.cwd(), "src/posts");
 const fileNames = fs.readdirSync(postsDir);
 
-export async function getSortedPostsData(views: boolean = false) {
+export async function getSortedPostsData() {
   const allPostsData = await Promise.all(
     fileNames.map(async (fileName) => {
       const id = fileName.replace(/\.md$/, "");
-      return await getPostDetails(id, views);
+      return await getPostDetails(id);
     })
   );
 
@@ -86,7 +66,7 @@ export async function getAllIDs() {
   return allPostsData.map(({ id }) => id);
 }
 
-export async function getPostDetails(id: string, views: boolean = false) {
+export async function getPostDetails(id: string) {
   const fullPath = path.join(postsDir, `${id}.md`);
   const fileContents = fs.readFileSync(fullPath, "utf-8");
 
@@ -106,7 +86,7 @@ export async function getPostDetails(id: string, views: boolean = false) {
   }
 }
 
-// updateViewCollection();
+updateViewCollection();
 // Example: Close the connection when the application exits
 process.on('SIGINT', async () => {
   await client.close();

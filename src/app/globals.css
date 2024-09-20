@@ -90,3 +90,25 @@ body {
 ::-webkit-scrollbar-thumb {
   @apply bg-neutral-700 rounded-full hover:bg-neutral-600;
 }
+
+.loadingViews {
+  --color-one: #000;
+  --color-two: #fff;
+  --bg-size: 400%;
+  font-size: 1rem;
+  background: linear-gradient(
+    90deg,
+    var(--color-one),
+    var(--color-two),
+    var(--color-one)
+  ) 0 0 / var(--bg-size) 100%;
+  animation: move-bg 8s infinite linear;
+  color: transparent;
+  background-clip: text;
+}
+
+@keyframes move-bg {
+  to {
+    background-position: var(--bg-size) 0;
+  }
+}
