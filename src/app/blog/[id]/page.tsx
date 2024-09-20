@@ -1,4 +1,4 @@
-import { getAllIDs, getPostDetails, addView, getViews } from "@/app/posts";
+import { getAllIDs, getPostDetails, addView } from "@/app/posts";
 import { notFound } from "next/navigation";
 import Blog from "@/components/Blog";
 import { Metadata } from "next";
@@ -38,11 +38,9 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 
 export default async function Page({ params }: { params: { id: string } }) {
   if (!(await getAllIDs()).includes(params.id)) notFound();
-  // addView(params.id);
-  let views = await getViews(params.id);
+  addView(params.id);
   let data = {
     ...await getPostDetails(params.id),
-    views: views || 0,
   }
   return <Blog data={data} />
 }

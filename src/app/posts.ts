@@ -35,21 +35,6 @@ export async function addView(id: string) {
   }
 }
 
-export function getViews(id: string) {
-  // try {
-  //   await client.connect();
-  //   const collection = client.db("views").collection("views");
-  //   const data = await collection.findOne({id});
-  //   if(!data) {
-      return 0;
-  //   }
-  //   return data.views;
-  // }
-  // finally {
-  //   await client.close();
-  // }
-}
-
 
 
 async function updateViewCollection(){
